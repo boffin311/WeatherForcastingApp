@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         window.decorView.systemUiVisibility=View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        window.statusBarColor=resources.getColor(R.color.statusBarColor)
+        window.statusBarColor=resources.getColor(R.color.colorWhite)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 

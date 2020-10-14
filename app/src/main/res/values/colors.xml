@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="statusBarColor">#fff</color>
+    <color name="colorWhite">#FFF</color>
+    <color name="color_background_grey">#F7F7F7</color>
+    <color name="colorBlack">#000</color>
 </resources>
