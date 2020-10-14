@@ -12,7 +12,7 @@ object SevenDayDataClient  {
 
     var retrofit=Retrofit.Builder()
         .client(okHttpClient)
-        .baseUrl("http://api.openweathermap.org/data/2.5/")
+        .baseUrl("https://api.openweathermap.org/data/2.5/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     val sevenDayDataApi= retrofit.create(SevenDayDataApi::class.java)

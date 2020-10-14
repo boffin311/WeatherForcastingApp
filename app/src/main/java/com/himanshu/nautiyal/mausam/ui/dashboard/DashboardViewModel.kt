@@ -1,5 +1,6 @@
 package com.himanshu.nautiyal.mausam.ui.dashboard
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.himanshu.nautiyal.mausam.extensions.enqueue
@@ -13,6 +14,7 @@ class DashboardViewModel : ViewModel() {
     fun getSevenDayData(lat:Double,lang:Double,cnt:Int,api_key:String){
             SevenDayDataClient.sevenDayDataApi.getSevenDayData(lat,lang,cnt,api_key).enqueue { t, response ->
                 response?.body()?.let {
+                    Log.d("temp",it.cod)
                      dashboarViewModel.postValue(it)
                 }
             }
