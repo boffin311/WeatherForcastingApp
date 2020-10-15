@@ -28,8 +28,8 @@ class AdapterListSevenDayInfo(var list: ArrayList<SingleDayModel>) : RecyclerVie
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
 
          holder.tvDay.text=getDay(position)
-        holder.tvHighTemp.text="${list[position].maxTemp} *"
-        holder.tvLowTemp.text="${list[position].minTemp} *"
+        holder.tvHighTemp.text="${list[position].maxTemp} °"
+        holder.tvLowTemp.text="${list[position].minTemp} °"
         holder.imageWeatherStatus.setImageResource(list[position].imageId)
         holder.tvStatus.text=list[position].status
 

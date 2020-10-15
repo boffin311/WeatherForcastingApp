@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import com.himanshu.nautiyal.mausam.CustomDialoges.CustomDialgeDatePicker
 import com.himanshu.nautiyal.mausam.CustomDialoges.CustomDialogeEditName
 import com.himanshu.nautiyal.mausam.CustomDialoges.CustomDialogeProgressBar
 import com.himanshu.nautiyal.mausam.ExternalFormulaCalculation
@@ -66,16 +67,25 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
         root.imageSearch.setOnClickListener {
             customDialogProgressBar.show()
-            customDialogProgressBar.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
             homeViewModel.setWeatherByCityName(stateName, SignatureKey.API_KEY)
+        }
+
+        root.imagePickDate.setOnClickListener {
+            var customDialogeDatePicker=CustomDialgeDatePicker(requireContext())
+            customDialogeDatePicker.show()
         }
 
         root.imageEditName.setOnClickListener {
             var customDialgougeEditNamed=CustomDialogeEditName(requireContext(),homeViewModel)
+            customDialgougeEditNamed.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
             customDialgougeEditNamed.show()
         }
         homeViewModel.nameMutableLiveData.observe(viewLifecycleOwner,{
+            if(it.length > 15)
+                root.tvUserName.text=it.substring(0,13) + "..."
+            else
             root.tvUserName.text = it
+
         })
         homeViewModel.currentWeatherLiveData.observe(viewLifecycleOwner, Observer {
             Log.d(TAG,"Here hu ")
@@ -93,9 +103,9 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     )
                 )
                 if (sharedPreference.getBoolean("type", true)) root.tvTemperature.text =
-                    (it.main.temp - 273.15).toInt().toString() + " *"
+                    (it.main.temp - 273.15).toInt().toString() + "°"
                 else root.tvTemperature.text =
-                    ExternalFormulaCalculation.getFahrenite(it.main.temp) + " *"
+                    ExternalFormulaCalculation.getFahrenite(it.main.temp) + "°"
                 root.tvStatus.text = iconString.main
                 root.tvDateAndTime.text = getDayAndDate()
                 root.rvShowData.layoutManager = GridLayoutManager(requireActivity(), 3)
