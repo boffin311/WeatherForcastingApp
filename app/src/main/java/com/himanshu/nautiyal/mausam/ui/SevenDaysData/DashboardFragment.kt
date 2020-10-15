@@ -1,4 +1,4 @@
-package com.himanshu.nautiyal.mausam.ui.dashboard
+package com.himanshu.nautiyal.mausam.ui.SevenDaysData
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,10 +16,9 @@ import com.himanshu.nautiyal.mausam.CustomDialoges.CustomDialogeProgressBar
 import com.himanshu.nautiyal.mausam.ExternalFormulaCalculation
 import com.himanshu.nautiyal.mausam.R
 import com.himanshu.nautiyal.mausam.SignatureKey
-import com.himanshu.nautiyal.mausam.ui.dashboard.Adapters.AdapterListSevenDayInfo
-import com.himanshu.nautiyal.mausam.ui.dashboard.models.SingleDayModel
+import com.himanshu.nautiyal.mausam.ui.SevenDaysData.Adapters.AdapterListSevenDayInfo
+import com.himanshu.nautiyal.mausam.ui.SevenDaysData.models.SingleDayModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class DashboardFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package com.himanshu.nautiyal.mausam.ui.dashboard
+package com.himanshu.nautiyal.mausam.ui.SevenDaysData
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

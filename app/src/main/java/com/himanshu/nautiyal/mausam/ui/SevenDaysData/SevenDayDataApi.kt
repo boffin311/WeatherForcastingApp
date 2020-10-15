@@ -1,6 +1,6 @@
-package com.himanshu.nautiyal.mausam.ui.dashboard
+package com.himanshu.nautiyal.mausam.ui.SevenDaysData
 
-import com.himanshu.nautiyal.mausam.ui.dashboard.models.SevenDayModel
+import com.himanshu.nautiyal.mausam.ui.SevenDaysData.models.SevenDayModel
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

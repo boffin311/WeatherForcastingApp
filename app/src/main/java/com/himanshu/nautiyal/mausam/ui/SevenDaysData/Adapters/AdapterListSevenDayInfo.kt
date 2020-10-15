@@ -1,4 +1,4 @@
-package com.himanshu.nautiyal.mausam.ui.dashboard.Adapters
+package com.himanshu.nautiyal.mausam.ui.SevenDaysData.Adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.himanshu.nautiyal.mausam.R
-import com.himanshu.nautiyal.mausam.ui.dashboard.models.SingleDayModel
-import com.himanshu.nautiyal.mausam.ui.home.Adapters.AdapterOtherInfromation
+import com.himanshu.nautiyal.mausam.ui.SevenDaysData.models.SingleDayModel
 import kotlinx.android.synthetic.main.adapter_last_seven_day.view.*
 
 class AdapterListSevenDayInfo(var list: ArrayList<SingleDayModel>) : RecyclerView.Adapter<AdapterListSevenDayInfo.MyHolder>() {

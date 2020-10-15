@@ -1,6 +1,6 @@
 package com.himanshu.nautiyal.mausam.Activity.DashBoardActivity
 
-import com.himanshu.nautiyal.mausam.ui.dashboard.SevenDayDataClient
+import com.himanshu.nautiyal.mausam.ui.SevenDaysData.SevenDayDataClient
 import org.junit.Assert
 import org.junit.Test
 

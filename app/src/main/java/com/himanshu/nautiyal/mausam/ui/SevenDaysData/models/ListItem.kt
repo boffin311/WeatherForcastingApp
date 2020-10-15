@@ -1,4 +1,4 @@
-package com.himanshu.nautiyal.mausam.ui.dashboard.models
+package com.himanshu.nautiyal.mausam.ui.SevenDaysData.models
 
 import com.google.gson.annotations.SerializedName
 import com.himanshu.nautiyal.mausam.ui.commonModels.Clouds

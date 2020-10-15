@@ -1,10 +1,10 @@
-package com.himanshu.nautiyal.mausam.ui.dashboard
+package com.himanshu.nautiyal.mausam.ui.SevenDaysData
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.himanshu.nautiyal.mausam.extensions.enqueue
-import com.himanshu.nautiyal.mausam.ui.dashboard.models.SevenDayModel
+import com.himanshu.nautiyal.mausam.ui.SevenDaysData.models.SevenDayModel
 
 class DashboardViewModel : ViewModel() {
 
