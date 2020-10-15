@@ -43,7 +43,8 @@ class StartingScreenActivity : AppCompatActivity() {
                 }
                 else -> {
                     sharedPreferences.edit().putString("userName", etGetName.text.toString()).apply()
-                    var intent=Intent(this@StartingScreenActivity,MainActivity::class.java)
+                    sharedPreferences.edit().putBoolean("isLoggedIn",true).apply()
+                    val intent=Intent(this@StartingScreenActivity,MainActivity::class.java)
                     startActivity(intent)
                   this.finish()
                 }

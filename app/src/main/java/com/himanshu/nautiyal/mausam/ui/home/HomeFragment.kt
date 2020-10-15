@@ -1,6 +1,7 @@
 package com.himanshu.nautiyal.mausam.ui.home
 
 import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -10,12 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import com.himanshu.nautiyal.mausam.CustomDialoges.CustomDialogeEditName
 import com.himanshu.nautiyal.mausam.CustomDialoges.CustomDialogeProgressBar
 import com.himanshu.nautiyal.mausam.ExternalFormulaCalculation
 import com.himanshu.nautiyal.mausam.R
@@ -52,9 +55,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
             resources.getString(R.string.packageName),
             MODE_PRIVATE
         )
-
-
-
+        root.tvUserName.text=sharedPreference.getString("userName","Name");
         root.spinnerGetState.let {
             var setStateAdapter =
                 ArrayAdapter(requireContext(), R.layout.adapter_spinner_get_state, arrayOfStates)
@@ -64,8 +65,18 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
             it.onItemSelectedListener = this
         }
         root.imageSearch.setOnClickListener {
+            customDialogProgressBar.show()
+            customDialogProgressBar.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
             homeViewModel.setWeatherByCityName(stateName, SignatureKey.API_KEY)
         }
+
+        root.imageEditName.setOnClickListener {
+            var customDialgougeEditNamed=CustomDialogeEditName(requireContext(),homeViewModel)
+            customDialgougeEditNamed.show()
+        }
+        homeViewModel.nameMutableLiveData.observe(viewLifecycleOwner,{
+            root.tvUserName.text = it
+        })
         homeViewModel.currentWeatherLiveData.observe(viewLifecycleOwner, Observer {
             Log.d(TAG,"Here hu ")
             customDialogProgressBar.dismiss()

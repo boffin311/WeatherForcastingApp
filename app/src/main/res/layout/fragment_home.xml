@@ -17,15 +17,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toTopOf="parent">
-      <Button
+      <ImageView
           android:layout_width="0dp"
           android:layout_weight="1"
           android:id="@+id/btnPickDate"
-          android:text="@string/date"
+          android:src=""
           android:layout_height="match_parent"/>
       <androidx.appcompat.widget.AppCompatSpinner
           android:layout_width="0dp"
-          android:layout_weight="2"
+          android:layout_weight="4"
           android:id="@+id/spinnerGetState"
           android:layout_height="match_parent"/>
       <ImageView
@@ -49,15 +49,44 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linearSearch">
-        <TextView
-            android:id="@+id/tvLocationName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
-            android:padding="5sp"
-            android:text="Pitampura"
-            android:fontFamily="@font/roboto_bold"
-            android:textSize="25sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvLocationName"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:padding="5sp"
+                android:text="Pitampura"
+                android:fontFamily="@font/roboto_bold"
+                android:textSize="25sp" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tvUserName"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="@font/roboto_blacks"
+                    android:layout_marginEnd="10dp"
+                    android:layout_height="wrap_content">
+
+                </TextView>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:id="@+id/imageEditName"
+                    android:src="@drawable/edit_icon"
+                    android:layout_height="match_parent">
+
+                </ImageView>
+            </LinearLayout>
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/tvDateAndTime"

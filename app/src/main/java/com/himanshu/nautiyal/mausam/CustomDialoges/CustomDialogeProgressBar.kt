@@ -8,7 +8,7 @@ import com.himanshu.nautiyal.mausam.R
 
 
 class CustomDialogeProgressBar(a: Context) : Dialog(a) {
-    var c: Context
+    var c: Context = a
     var d: Dialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +18,4 @@ class CustomDialogeProgressBar(a: Context) : Dialog(a) {
 
     }
 
-    init {
-        c = a
-    }
 }
