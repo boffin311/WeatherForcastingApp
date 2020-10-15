@@ -9,11 +9,12 @@ import retrofit2.Response
 inline fun <T> Call<T>.enqueue(crossinline responseDone:(t:Throwable?, response:Response<T>?) -> Unit){
        this.enqueue(object : Callback<T>{
            override fun onResponse(call: Call<T>, response: Response<T>) {
-               Log.d("Main","Success")
+               Log.d("Sain","Success")
                     responseDone(null,response)
            }
 
            override fun onFailure(call: Call<T>, t: Throwable) {
+               Log.d("Main","failed")
                responseDone(t,null)
            }
 

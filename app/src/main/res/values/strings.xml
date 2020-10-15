@@ -10,4 +10,6 @@
     <string name="base_url_seven_days">http://api.openweathermap.org/data/2.5/</string>
     <string name="today">Today</string>
     <string name="date">Date</string>
+    <string name="thisWeek">This Week</string>
+    <string name="chooseScale">Choose the measuring scale</string>
 </resources>

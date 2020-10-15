@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.himanshu.nautiyal.mausam.CustomDialoges.CustomDialogeProgressBar
 import com.himanshu.nautiyal.mausam.ExternalFormulaCalculation
 import com.himanshu.nautiyal.mausam.R
 import com.himanshu.nautiyal.mausam.SignatureKey
@@ -22,8 +24,16 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class DashboardFragment : Fragment() {
 
+    lateinit var customDialogProgressBar: CustomDialogeProgressBar
     private lateinit var dashboardViewModel: DashboardViewModel
     private  val TAG="DF";
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        customDialogProgressBar= CustomDialogeProgressBar(requireContext())
+        customDialogProgressBar.setCancelable(false)
+        customDialogProgressBar.show()
+
+    }
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -36,29 +46,41 @@ class DashboardFragment : Fragment() {
             Context.MODE_PRIVATE
         )
         dashboardViewModel.dashboarViewModel.observe(viewLifecycleOwner, Observer {
-            Log.d(TAG,it.cod)
-            val list=it.list
-            val arrayListSevenDay=ArrayList<SingleDayModel>()
-            val typeValue=sharedPreference.getBoolean("type",true)
-            for(singleEle in list!!){
-                val day=singleEle.dtTxt
-                var minTemp=ExternalFormulaCalculation.getCelcius(singleEle.main.tempMin)
-                var maxTemp= ExternalFormulaCalculation.getCelcius(singleEle.main.tempMax)
-                if(!typeValue)
-                {
-                   minTemp=ExternalFormulaCalculation.getFahrenite(singleEle.main.tempMin)
-                    maxTemp =ExternalFormulaCalculation.getFahrenite(singleEle.main.tempMin)
+            customDialogProgressBar.dismiss()
+            if (it == null){
+                Toast.makeText(requireContext(),"Something went Wrong. Please connect to internet and TRY AGAIN",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Log.d(TAG, it.cod)
+            val list = it.list
+            val arrayListSevenDay = ArrayList<SingleDayModel>()
+            val typeValue = sharedPreference.getBoolean("type", true)
+            for (singleEle in list!!) {
+                val day = singleEle.dtTxt
+                var minTemp = ExternalFormulaCalculation.getCelcius(singleEle.main.tempMin)
+                var maxTemp = ExternalFormulaCalculation.getCelcius(singleEle.main.tempMax)
+                if (!typeValue) {
+                    minTemp = ExternalFormulaCalculation.getFahrenite(singleEle.main.tempMin)
+                    maxTemp = ExternalFormulaCalculation.getFahrenite(singleEle.main.tempMin)
                 }
-                val imageStatus=getImageToLoadAccordingToWeather(singleEle.weather!![0].icon)
-                val status=singleEle.weather[0].main
+                val imageStatus = getImageToLoadAccordingToWeather(singleEle.weather!![0].icon)
+                val status = singleEle.weather[0].main
 
-                val singleDay=SingleDayModel(day= day,minTemp = minTemp,maxTemp = maxTemp,imageId = imageStatus,status = status,type = typeValue)
+                val singleDay = SingleDayModel(
+                    day = day,
+                    minTemp = minTemp,
+                    maxTemp = maxTemp,
+                    imageId = imageStatus,
+                    status = status,
+                    type = typeValue
+                )
                 arrayListSevenDay.add(singleDay)
             }
-            Log.d(TAG,arrayListSevenDay.size.toString())
-            val adapter=AdapterListSevenDayInfo(arrayListSevenDay)
-            rvShowSevenDay.layoutManager=LinearLayoutManager(requireActivity())
-            rvShowSevenDay.adapter=adapter
+            Log.d(TAG, arrayListSevenDay.size.toString())
+            val adapter = AdapterListSevenDayInfo(arrayListSevenDay)
+            rvShowSevenDay.layoutManager = LinearLayoutManager(requireActivity())
+            rvShowSevenDay.adapter = adapter
+        }
         })
 
         val lat:Double=sharedPreference.getString("latitude","28.7041")!!.toDouble()

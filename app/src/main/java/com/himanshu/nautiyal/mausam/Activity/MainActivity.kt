@@ -40,18 +40,10 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences=getSharedPreferences(resources.getString(R.string.packageName),
             MODE_PRIVATE)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications,R.id.navigation_select_type
-        ))
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
         val locationSettingBuilder= LocationSettingsRequest.Builder()
         val client: SettingsClient = LocationServices.getSettingsClient(this)
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(locationSettingBuilder.build())
+
         task.addOnSuccessListener {
 
             getCurrentLocation()
@@ -67,6 +59,15 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+        val navController = findNavController(R.id.nav_host_fragment)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications,R.id.navigation_select_type
+        ))
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+
 
 
     }

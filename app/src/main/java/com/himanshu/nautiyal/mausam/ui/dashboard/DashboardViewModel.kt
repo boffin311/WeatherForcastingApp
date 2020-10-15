@@ -13,8 +13,8 @@ class DashboardViewModel : ViewModel() {
     }
     fun getSevenDayData(lat:Double,lang:Double,cnt:Int,api_key:String){
             SevenDayDataClient.sevenDayDataApi.getSevenDayData(lat,lang,cnt,api_key).enqueue { t, response ->
-                response?.body()?.let {
-                    Log.d("temp",it.cod)
+                Log.d("Main","here hu ")
+                response?.body().let {
                      dashboarViewModel.postValue(it)
                 }
             }

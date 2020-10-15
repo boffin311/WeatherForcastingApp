@@ -1,5 +1,6 @@
 package com.himanshu.nautiyal.mausam.ui.home
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.himanshu.nautiyal.mausam.extensions.enqueue
@@ -12,14 +13,14 @@ class HomeViewModel : ViewModel() {
     }
     fun setWeather(lat: Double, long:Double, apiKey:String){
         CurrentWeatherClient.currentWeatherApi.getCurrentData(lat,long,apiKey).enqueue { t, response ->
-            response?.body()?.let{
+            response?.body().let{
                 currentWeatherLiveData.postValue(it)
         }
       }
     }
     fun setWeatherByCityName(cityName:String,apiKey: String){
         CurrentWeatherClient.currentWeatherApi.getCurrentDataByCityName(cityName=cityName,api_key= apiKey).enqueue { t, response ->
-            response?.body()?.let {
+            response?.body().let {
                 currentWeatherLiveData.postValue(it)
             }
         }
