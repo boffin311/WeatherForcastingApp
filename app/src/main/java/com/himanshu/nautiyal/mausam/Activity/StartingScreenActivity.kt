@@ -32,35 +32,36 @@ class StartingScreenActivity : AppCompatActivity() {
         requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION)
        sharedPreferences=getSharedPreferences(resources.getString(R.string.packageName),
            MODE_PRIVATE)
-        btnGetLocation.setOnClickListener {
-            val locationSettingBuilder= LocationSettingsRequest.Builder()
-            val client: SettingsClient = LocationServices.getSettingsClient(this)
-            val task: Task<LocationSettingsResponse> = client.checkLocationSettings(locationSettingBuilder.build())
-            task.addOnSuccessListener {
-
-                getCurrentLocation()
-            }
-            task.addOnFailureListener{
-                if (it is ResolvableApiException){
-                    try {
-
-                        it.startResolutionForResult(this@StartingScreenActivity,
-                            REQUEST_CHECK_SETTINGS)
-                    } catch (sendEx: IntentSender.SendIntentException) {
-                    }
-                }
-
-            }
-
-
-        }
+//        btnGetLocation.setOnClickListener {
+//            val locationSettingBuilder= LocationSettingsRequest.Builder()
+//            val client: SettingsClient = LocationServices.getSettingsClient(this)
+//            val task: Task<LocationSettingsResponse> = client.checkLocationSettings(locationSettingBuilder.build())
+//            task.addOnSuccessListener {
+//
+//                getCurrentLocation()
+//            }
+//            task.addOnFailureListener{
+//                if (it is ResolvableApiException){
+//                    try {
+//
+//                        it.startResolutionForResult(this@StartingScreenActivity,
+//                            REQUEST_CHECK_SETTINGS)
+//                    } catch (sendEx: IntentSender.SendIntentException) {
+//                    }
+//                }
+//
+//            }
+//
+//
+//        }
         btnContinue.setOnClickListener {
             when {
                 etGetName.text.isEmpty() -> {
                     Toast.makeText(this,"Name Field is Required.",Toast.LENGTH_SHORT).show()
                 }
-                location==null -> {
-                    Toast.makeText(this,"Please Select the Location to continue",Toast.LENGTH_SHORT).show()
+                (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED)-> {
+                    Toast.makeText(this,"Please Provide the Location Permission as it is required for the app to show your current weather condition",Toast.LENGTH_LONG).show()
+                    requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION)
                 }
                 else -> {
                     sharedPreferences.edit().putString("userName", etGetName.text.toString()).apply()
@@ -72,31 +73,31 @@ class StartingScreenActivity : AppCompatActivity() {
 
     }
 
-    fun getCurrentLocation(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
-            fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-                location=it;
-                sharedPreferences.edit().putString("latitude",it.latitude.toString()).apply()
-                sharedPreferences.edit().putString("longitude",it.longitude.toString()).apply()
-                tvLocationDisplay.text="Location Obtained"
-                Log.d(TAG,it.latitude.toString())
+//    fun getCurrentLocation(){
+//        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
+//            fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+//                location=it;
+//                sharedPreferences.edit().putString("latitude",it.latitude.toString()).apply()
+//                sharedPreferences.edit().putString("longitude",it.longitude.toString()).apply()
+//                tvLocationDisplay.text="Location Obtained"
+//                Log.d(TAG,it.latitude.toString())
+//
+//            }.addOnFailureListener{
+//                Toast.makeText(this,"Something went wrong Please try after some time",Toast.LENGTH_SHORT).show()
+//            }
+//
+//        }else{
+//            requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION)
+//        }
+//    }
 
-            }.addOnFailureListener{
-                Toast.makeText(this,"Something went wrong Please try after some time",Toast.LENGTH_SHORT).show()
-            }
 
-        }else{
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION)
-        }
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode== RESULT_OK && requestCode==REQUEST_CHECK_SETTINGS){
-            getCurrentLocation()
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if(resultCode== RESULT_OK && requestCode==REQUEST_CHECK_SETTINGS){
+//            getCurrentLocation()
+//        }
+//    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

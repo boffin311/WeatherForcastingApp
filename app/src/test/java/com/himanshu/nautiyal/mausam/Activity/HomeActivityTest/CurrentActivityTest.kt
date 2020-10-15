@@ -11,7 +11,15 @@ class CurrentActivityTest {
     fun `get the response of current data `(){
         val response=CurrentWeatherClient.currentWeatherApi.getCurrentData(28.7041,77.1025, SignatureKey.API_KEY).execute();
         response.body()?.let {
-//            assertNotNull(it)
+            assertNotNull(it)
+            assertEquals(200,it.cod)
+        }
+    }
+    @Test
+    fun  `get the response of current data using city name`(){
+        val response= CurrentWeatherClient.currentWeatherApiUsingCityName.getCurrentDataByCityName("Mumbai",SignatureKey.API_KEY).execute()
+        response.body()?.let {
+            assertNotNull(it)
             assertEquals(200,it.cod)
         }
     }

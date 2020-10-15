@@ -9,4 +9,6 @@ import retrofit2.http.Query
 interface CurrentWeatherApi {
     @GET("weather")
     fun getCurrentData(@Query("lat")lat:Double, @Query("lon")long:Double, @Query("appid")api_key:String): Call<CurrentWeather>
+    @GET("weather")
+    fun getCurrentDataByCityName(@Query("q")cityName:String,@Query("appid") api_key:String): Call<CurrentWeather>
 }

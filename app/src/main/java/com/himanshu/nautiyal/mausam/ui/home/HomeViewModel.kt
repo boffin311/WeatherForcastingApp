@@ -17,4 +17,11 @@ class HomeViewModel : ViewModel() {
         }
       }
     }
+    fun setWeatherByCityName(cityName:String,apiKey: String){
+        CurrentWeatherClient.currentWeatherApi.getCurrentDataByCityName(cityName=cityName,api_key= apiKey).enqueue { t, response ->
+            response?.body()?.let {
+                currentWeatherLiveData.postValue(it)
+            }
+        }
+    }
 }

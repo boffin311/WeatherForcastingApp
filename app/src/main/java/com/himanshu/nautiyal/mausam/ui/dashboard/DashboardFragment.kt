@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.himanshu.nautiyal.mausam.ExternalFormulaCalculation
 import com.himanshu.nautiyal.mausam.R
 import com.himanshu.nautiyal.mausam.SignatureKey
 import com.himanshu.nautiyal.mausam.ui.dashboard.Adapters.AdapterListSevenDayInfo
@@ -41,17 +42,17 @@ class DashboardFragment : Fragment() {
             val typeValue=sharedPreference.getBoolean("type",true)
             for(singleEle in list!!){
                 val day=singleEle.dtTxt
-                var minTemp=singleEle.main.tempMin
-                var maxTemp= singleEle.main.tempMax
-                if(typeValue)
+                var minTemp=ExternalFormulaCalculation.getCelcius(singleEle.main.tempMin)
+                var maxTemp= ExternalFormulaCalculation.getCelcius(singleEle.main.tempMax)
+                if(!typeValue)
                 {
-                    minTemp -= 273.15
-                    maxTemp -=273.15
+                   minTemp=ExternalFormulaCalculation.getFahrenite(singleEle.main.tempMin)
+                    maxTemp =ExternalFormulaCalculation.getFahrenite(singleEle.main.tempMin)
                 }
                 val imageStatus=getImageToLoadAccordingToWeather(singleEle.weather!![0].icon)
                 val status=singleEle.weather[0].main
 
-                val singleDay=SingleDayModel(day= day,minTemp = minTemp.toInt().toString(),maxTemp = maxTemp.toInt().toString(),imageId = imageStatus,status = status,type = typeValue)
+                val singleDay=SingleDayModel(day= day,minTemp = minTemp,maxTemp = maxTemp,imageId = imageStatus,status = status,type = typeValue)
                 arrayListSevenDay.add(singleDay)
             }
             Log.d(TAG,arrayListSevenDay.size.toString())

@@ -9,4 +9,5 @@
     <string name="packageName">com.himanshu.nautiyal.mausam</string>
     <string name="base_url_seven_days">http://api.openweathermap.org/data/2.5/</string>
     <string name="today">Today</string>
+    <string name="date">Date</string>
 </resources>
