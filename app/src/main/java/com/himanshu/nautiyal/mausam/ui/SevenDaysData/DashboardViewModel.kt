@@ -11,6 +11,10 @@ class DashboardViewModel : ViewModel() {
     val dashboarViewModel : MutableLiveData<SevenDayModel> by lazy {
         MutableLiveData<SevenDayModel>()
     }
+    /**
+    * update the value of the LiveData instance as we created on
+    * the base fo response obtained by sevenDayDataApi
+    * */
     fun getSevenDayData(lat:Double,lang:Double,cnt:Int,api_key:String){
             SevenDayDataClient.sevenDayDataApi.getSevenDayData(lat,lang,cnt,api_key).enqueue { t, response ->
                 Log.d("Main","here hu ")

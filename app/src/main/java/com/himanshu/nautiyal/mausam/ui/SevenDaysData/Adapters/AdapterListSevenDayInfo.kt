@@ -19,13 +19,19 @@ class AdapterListSevenDayInfo(var list: ArrayList<SingleDayModel>) : RecyclerVie
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
+        /**
+         * creating the view of the Adapter using LayoutInflater and returning the
+          the instance of the MyHolder class
+        * */
         val li=parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view=li.inflate(R.layout.adapter_last_seven_day,parent,false)
         return AdapterListSevenDayInfo.MyHolder(view);
     }
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
-
+         /**
+         * Updating the UI according  to the data obtained by the UI thread
+         * */
          holder.tvDay.text=getDay(position)
         holder.tvHighTemp.text="${list[position].maxTemp} °"
         holder.tvLowTemp.text="${list[position].minTemp} °"
@@ -33,7 +39,6 @@ class AdapterListSevenDayInfo(var list: ArrayList<SingleDayModel>) : RecyclerVie
         holder.tvStatus.text=list[position].status
 
     }
-
     override fun getItemCount(): Int =list.size
     fun getDay(day:Int):String{
        return  when(day){

@@ -23,15 +23,19 @@ class StartingScreenActivity : AppCompatActivity() {
     private val REQUEST_CHECK_SETTINGS=2728
     private val TAG="SSA";
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private  var location:Location?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_starting_screen)
-        fusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(this)
         requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION)
        sharedPreferences=getSharedPreferences(resources.getString(R.string.packageName),
            MODE_PRIVATE)
+
+        /**
+        * btnContinue is set with a listener which check whether the user Provide location permission or not
+        * as the location permissions are required to execute the app so we tell the importance of the location to the app
+        * and as move to the main activity screen if the permission and the name are provided
+        * */
         btnContinue.setOnClickListener {
             when {
                 etGetName.text.isEmpty() -> {

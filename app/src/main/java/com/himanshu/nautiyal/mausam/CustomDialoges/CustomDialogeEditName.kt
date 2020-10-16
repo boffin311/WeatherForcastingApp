@@ -18,6 +18,7 @@ class CustomDialogeEditName(context:Context,var homeViewModel: HomeViewModel): D
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialogue_edit_name)
+        /**help to edit the name of the user*/
         btnEdit.setOnClickListener {
             if(etGetName.text.toString().isEmpty()){
                 etGetName.error = "The Name Can't Be Empty"

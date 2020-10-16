@@ -2,6 +2,10 @@ package com.himanshu.nautiyal.mausam
 
 class ExternalFormulaCalculation {
     companion object{
+        /**
+         * getting the image of the weather on the bases of response obtained by Api
+         * following are the code of different weather condition
+         * */
         public fun getImageToLoadAccordingToWeather(imageId:String?):Int{
             return when(imageId){
                 "01d"->R.drawable.clear_sky_day
@@ -26,12 +30,18 @@ class ExternalFormulaCalculation {
             }
 
         }
+        /**
+        * Converting the Kelvin scale to fahrenheit scale
+        * */
         public fun getFahrenite(kelvin:Double):String{
             var temp=kelvin - 273.15
             temp *= (9.0 / 5.0)
             temp+=32
             return temp.toInt().toString()
         }
+        /**
+         * Converting the kelvin scale to Celsius Scale
+         * */
         public fun getCelcius(kelvin: Double):String{
             return (kelvin-273.15).toInt().toString()
         }

@@ -11,6 +11,11 @@ class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
+
+        /**
+        * Delaying the splash screen by 2000 timeSpan so that we can do our work here and
+        * taking action according the status of isLoggedIn or not
+        * */
         var handler= Handler();
         handler.postDelayed({ },2000)
         val sharedPreferences=getSharedPreferences(resources.getString(R.string.packageName),

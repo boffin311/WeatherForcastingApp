@@ -29,6 +29,12 @@ class FragmentSelectType : Fragment() {
         var type=sharedPreferences.getBoolean("type",true)
         if(type) changeStateAccordingToClick(root.cardFahrenite,root.cardCelcius)
         else changeStateAccordingToClick(root.cardCelcius,root.cardFahrenite)
+
+        /*
+        * Updating the SharedPreference on the basis of user selection
+        * if th user select the Celsius scale than the type Value is set to TRUE else
+        * it is set to False
+        * */
         root.cardCelcius.setOnClickListener {
             sharedPreferences.edit().putBoolean("type",true).apply()
             changeStateAccordingToClick(root.cardFahrenite,root.cardCelcius)
@@ -39,6 +45,9 @@ class FragmentSelectType : Fragment() {
         }
         return root
     }
+    /*
+    * Changing the Ui according to user Selection of Celsius or fahrenheit scale
+    * */
      fun changeStateAccordingToClick(cardView1:CardView,cardView2:CardView){
 
          cardView1.setCardBackgroundColor(resources.getColor(R.color.colorWhite))

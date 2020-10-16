@@ -18,12 +18,19 @@ class AdapterOtherInfromation(var arrayOfData:ArrayList<keyValuePairModel>): Rec
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
+        /**
+         creating the view of the Adapter using LayoutInflater and returning the
+         the instance of the MyHolder class
+        * */
       val li=parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
       val view=li.inflate(R.layout.grid_adapter_single_info,parent,false)
         return MyHolder(view);
     }
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
+        /**
+        * Updating the UI according the data send by the viewModel
+        * */
         holder.tvCategory.text=arrayOfData[position].key
         holder.tvValue.text=arrayOfData[position].value
     }

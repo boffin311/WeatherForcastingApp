@@ -33,13 +33,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        /** To change the color of the status bar*/
         window.decorView.systemUiVisibility=View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         window.statusBarColor=resources.getColor(R.color.colorWhite)
+
         fusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(this)
         requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION)
         sharedPreferences=getSharedPreferences(resources.getString(R.string.packageName),
             MODE_PRIVATE)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
+
+
+        /**
+        * Setting up the current location using google location Api
+        * It usse the FusedLocation Provider Client to obtain the location
+        * even if you are inside a building ( i.e. by network location client ) or by
+        * using GPS
+        * */
         val locationSettingBuilder= LocationSettingsRequest.Builder()
         val client: SettingsClient = LocationServices.getSettingsClient(this)
         val task: Task<LocationSettingsResponse> = client.checkLocationSettings(locationSettingBuilder.build())
@@ -59,9 +70,14 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
+        /**
+        * Basically help in working of the BottomNavigationView using navigation_xml
+        * This method is introduced in new Android jetpack Model
+        * */
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        /** Passing each menu ID as a set of Ids because each
+            menu should be considered as top level destinations.*/
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_home, R.id.navigation_dashboard,R.id.navigation_select_type
         ))
@@ -71,6 +87,11 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+    /**
+    * it return the Callback to the current location of the user using fusedLocationProviderClient
+    * It has two function addOnSuccessListener which is fired when the location access is possible
+    * and other onFailureListener which is fired when something went wrong while getting the location
+    * */
     fun getCurrentLocation(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
             fusedLocationProviderClient.lastLocation.addOnSuccessListener {
