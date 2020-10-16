@@ -72,7 +72,12 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
             MODE_PRIVATE
         )
         fusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(requireActivity())
-        root.tvUserName.text=sharedPreferences.getString("userName","Name");
+
+        var name=sharedPreferences.getString("userName","Name")!!
+        if(name.length > 15)
+            root.tvUserName.text=name.substring(0,13) + "..."
+        else
+            root.tvUserName.text = name
 
         /**
         * SpinnerGetState used to choose the name of the city for which we have to get the

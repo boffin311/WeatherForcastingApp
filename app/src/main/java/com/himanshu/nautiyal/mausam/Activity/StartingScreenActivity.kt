@@ -38,7 +38,7 @@ class StartingScreenActivity : AppCompatActivity() {
         * */
         btnContinue.setOnClickListener {
             when {
-                etGetName.text.isEmpty() -> {
+                etGetName.text.trim().isEmpty() -> {
                     Toast.makeText(this,"Name Field is Required.",Toast.LENGTH_SHORT).show()
                 }
                 (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED)-> {
