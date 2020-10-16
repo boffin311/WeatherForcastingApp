@@ -17,9 +17,9 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.himanshu.nautiyal.mausam.ui.SevenDaysData.DashboardFragment"
+        android:name="com.himanshu.nautiyal.mausam.ui.SevenDaysData.SevenDayDataFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        tools:layout="@layout/fragment_seven_day_data" >
         <action
             android:id="@+id/action_navigation_dashboard_to_navigation_select_type"
             app:destination="@id/navigation_select_type" />

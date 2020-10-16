@@ -18,12 +18,13 @@ import com.himanshu.nautiyal.mausam.R
 import com.himanshu.nautiyal.mausam.SignatureKey
 import com.himanshu.nautiyal.mausam.ui.SevenDaysData.Adapters.AdapterListSevenDayInfo
 import com.himanshu.nautiyal.mausam.ui.SevenDaysData.models.SingleDayModel
-import kotlinx.android.synthetic.main.fragment_dashboard.*
+import kotlinx.android.synthetic.main.fragment_seven_day_data.*
+import kotlinx.android.synthetic.main.fragment_home.view.*
 
-class DashboardFragment : Fragment() {
+class SevenDayDataFragment : Fragment() {
 
     lateinit var customDialogProgressBar: CustomDialogeProgressBar
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var sevenDayDataViewModel: SevenDayDataViewModel
     private val TAG = "DF";
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +39,26 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-            ViewModelProviders.of(this).get(DashboardViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        sevenDayDataViewModel =
+            ViewModelProviders.of(this).get(SevenDayDataViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_seven_day_data, container, false)
         val sharedPreference: SharedPreferences = requireActivity().getSharedPreferences(
             resources.getString(R.string.packageName),
             Context.MODE_PRIVATE
         )
         /**
+         * Setting up the User Name from sharedPreference
+         * */
+        var name=sharedPreference.getString("userName","Your Name")!!
+        if(name.length > 15)
+            root.tvUserName.text=name.substring(0,13) + "..."
+        else
+            root.tvUserName.text = name
+        /**
         * It is the a observer to the weather liveData of last seven days as there is any change in the currentWeather model
         * that is we make a request to the server to get the current weather condition or the weather condition
         * */
-        dashboardViewModel.dashboarViewModel.observe(viewLifecycleOwner, Observer {
+        sevenDayDataViewModel.sevenDayDataViewModel.observe(viewLifecycleOwner, Observer {
             customDialogProgressBar.dismiss()
             if (it == null) {
                 Toast.makeText(
@@ -104,7 +113,7 @@ class DashboardFragment : Fragment() {
 
         val lat: Double = sharedPreference.getString("latitude", "28.7041")!!.toDouble()
         val lang: Double = sharedPreference.getString("longitude", "77.1025")!!.toDouble()
-        dashboardViewModel.getSevenDayData(lat, lang, 7, SignatureKey.API_KEY)
+        sevenDayDataViewModel.getSevenDayData(lat, lang, 7, SignatureKey.API_KEY)
         return root
     }
 }

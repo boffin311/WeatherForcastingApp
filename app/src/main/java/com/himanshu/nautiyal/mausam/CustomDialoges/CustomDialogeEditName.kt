@@ -24,9 +24,9 @@ class CustomDialogeEditName(context:Context,var homeViewModel: HomeViewModel): D
                 etGetName.error = "The Name Can't Be Empty"
             }
             else {
-                homeViewModel.setNameOfTheUser(etGetName.text.toString())
+                homeViewModel.setNameOfTheUser(etGetName.text.toString().trim())
                 val sharedPrefernce=context.getSharedPreferences(context.resources.getString(R.string.packageName),Context.MODE_PRIVATE)
-                sharedPrefernce.edit().putString("userName",etGetName.text.toString()).apply()
+                sharedPrefernce.edit().putString("userName",etGetName.text.toString().trim()).apply()
                 this.dismiss()
             }
         }

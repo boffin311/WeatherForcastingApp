@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import com.himanshu.nautiyal.mausam.R
+import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_select_type.*
 import kotlinx.android.synthetic.main.fragment_select_type.view.*
 
@@ -43,6 +44,16 @@ class FragmentSelectType : Fragment() {
             sharedPreferences.edit().putBoolean("type",false).apply();
            changeStateAccordingToClick(root.cardCelcius,root.cardFahrenite)
         }
+
+
+        /**
+         * Setting up the User Name from sharedPreference
+         * */
+        var name=sharedPreferences.getString("userName","Your Name")!!
+        if(name.length > 15)
+            root.tvName.text="Hello, "+ name.substring(0,13) + "..."
+        else
+            root.tvName.text = "Hello, $name"
         return root
     }
     /**

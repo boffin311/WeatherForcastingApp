@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.himanshu.nautiyal.mausam.extensions.enqueue
 import com.himanshu.nautiyal.mausam.ui.SevenDaysData.models.SevenDayModel
 
-class DashboardViewModel : ViewModel() {
+class SevenDayDataViewModel : ViewModel() {
 
-    val dashboarViewModel : MutableLiveData<SevenDayModel> by lazy {
+    val sevenDayDataViewModel : MutableLiveData<SevenDayModel> by lazy {
         MutableLiveData<SevenDayModel>()
     }
     /**
@@ -19,7 +19,7 @@ class DashboardViewModel : ViewModel() {
             SevenDayDataClient.sevenDayDataApi.getSevenDayData(lat,lang,cnt,api_key).enqueue { t, response ->
                 Log.d("Main","here hu ")
                 response?.body().let {
-                     dashboarViewModel.postValue(it)
+                     sevenDayDataViewModel.postValue(it)
                 }
             }
     }

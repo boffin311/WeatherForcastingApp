@@ -46,7 +46,7 @@ class StartingScreenActivity : AppCompatActivity() {
                     requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION)
                 }
                 else -> {
-                    sharedPreferences.edit().putString("userName", etGetName.text.toString()).apply()
+                    sharedPreferences.edit().putString("userName", etGetName.text.toString().trim()).apply()
                     sharedPreferences.edit().putBoolean("isLoggedIn",true).apply()
                     val intent=Intent(this@StartingScreenActivity,MainActivity::class.java)
                     startActivity(intent)
