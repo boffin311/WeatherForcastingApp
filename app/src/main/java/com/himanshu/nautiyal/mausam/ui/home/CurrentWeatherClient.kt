@@ -24,7 +24,7 @@ object CurrentWeatherClient {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     val currentWeatherApi= retrofitInstance.create(CurrentWeatherApi::class.java)
-    private val currentWeatherApiUsingCityName= retrofitInstance.create(CurrentWeatherApi::class.java)
+    val currentWeatherApiUsingCityName= retrofitInstance.create(CurrentWeatherApi::class.java)
 
 
 }

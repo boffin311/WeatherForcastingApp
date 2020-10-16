@@ -24,13 +24,13 @@ class FragmentSelectType : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var root=inflater.inflate(R.layout.fragment_select_type, container, false)
-        var sharedPreferences=requireActivity().getSharedPreferences(resources.getString(R.string.packageName),MODE_PRIVATE)
-        var type=sharedPreferences.getBoolean("type",true)
+        val root=inflater.inflate(R.layout.fragment_select_type, container, false)
+        val sharedPreferences=requireActivity().getSharedPreferences(resources.getString(R.string.packageName),MODE_PRIVATE)
+        val type=sharedPreferences.getBoolean("type",true)
         if(type) changeStateAccordingToClick(root.cardFahrenite,root.cardCelcius)
         else changeStateAccordingToClick(root.cardCelcius,root.cardFahrenite)
 
-        /*
+        /**
         * Updating the SharedPreference on the basis of user selection
         * if th user select the Celsius scale than the type Value is set to TRUE else
         * it is set to False
@@ -45,7 +45,7 @@ class FragmentSelectType : Fragment() {
         }
         return root
     }
-    /*
+    /**
     * Changing the Ui according to user Selection of Celsius or fahrenheit scale
     * */
      fun changeStateAccordingToClick(cardView1:CardView,cardView2:CardView){
