@@ -25,10 +25,7 @@ import kotlinx.android.synthetic.main.activity_starting_screen.*
 
 class MainActivity : AppCompatActivity() {
     private val LOCATION_PERMISSION=1226;
-    private val REQUEST_CHECK_SETTINGS=2728
-    private val TAG="SSA";
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private  var location: Location?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,39 +34,10 @@ class MainActivity : AppCompatActivity() {
         /** To change the color of the status bar*/
         window.decorView.systemUiVisibility=View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         window.statusBarColor=resources.getColor(R.color.colorWhite)
-
-        fusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(this)
         requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION)
         sharedPreferences=getSharedPreferences(resources.getString(R.string.packageName),
             MODE_PRIVATE)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-
-        /**
-        * Setting up the current location using google location Api
-        * It usse the FusedLocation Provider Client to obtain the location
-        * even if you are inside a building ( i.e. by network location client ) or by
-        * using GPS
-        * */
-        val locationSettingBuilder= LocationSettingsRequest.Builder()
-        val client: SettingsClient = LocationServices.getSettingsClient(this)
-        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(locationSettingBuilder.build())
-
-        task.addOnSuccessListener {
-
-            getCurrentLocation()
-        }
-        task.addOnFailureListener{
-            if (it is ResolvableApiException){
-                try {
-
-                    it.startResolutionForResult(this@MainActivity,
-                        REQUEST_CHECK_SETTINGS)
-                } catch (sendEx: IntentSender.SendIntentException) {
-                }
-            }
-
-        }
 
         /**
         * Basically help in working of the BottomNavigationView using navigation_xml
@@ -92,28 +60,7 @@ class MainActivity : AppCompatActivity() {
     * It has two function addOnSuccessListener which is fired when the location access is possible
     * and other onFailureListener which is fired when something went wrong while getting the location
     * */
-    fun getCurrentLocation(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
-            fusedLocationProviderClient.lastLocation.addOnSuccessListener {
-                location=it;
-                sharedPreferences.edit().putString("latitude",it.latitude.toString()).apply()
-                sharedPreferences.edit().putString("longitude",it.longitude.toString()).apply()
-                Log.d(TAG,it.latitude.toString())
 
-            }.addOnFailureListener{
-                Toast.makeText(this,"Something went wrong Please try after some time", Toast.LENGTH_SHORT).show()
-            }
-
-        }else{
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION)
-        }
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode== RESULT_OK && requestCode==REQUEST_CHECK_SETTINGS){
-            getCurrentLocation()
-        }
-    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -123,7 +70,6 @@ class MainActivity : AppCompatActivity() {
         when(requestCode){
             LOCATION_PERMISSION->{
                 if (grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED ){
-                     getCurrentLocation()
                 }
                 return
             }

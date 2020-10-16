@@ -1,9 +1,14 @@
 package com.himanshu.nautiyal.mausam.ui.home
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
+import android.content.IntentSender
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,11 +18,16 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSpinner
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
+import com.google.android.gms.tasks.Task
 import com.himanshu.nautiyal.mausam.CustomDialoges.CustomDialgeDatePicker
 import com.himanshu.nautiyal.mausam.CustomDialoges.CustomDialogeEditName
 import com.himanshu.nautiyal.mausam.CustomDialoges.CustomDialogeProgressBar
@@ -32,12 +42,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
-
+    private val LOCATION_PERMISSION=1226;
+    private val REQUEST_CHECK_SETTINGS=2728
     lateinit var customDialogProgressBar: CustomDialogeProgressBar
     private lateinit var homeViewModel: HomeViewModel
     private val TAG = "HF";
+
+    private lateinit var sharedPreferences: SharedPreferences
     var stateName = "Delhi"
     var arrayOfStates = arrayOf("Delhi", "Mumbai", "Noida")
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private  var location: Location?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         customDialogProgressBar = CustomDialogeProgressBar(requireContext())
@@ -52,11 +67,12 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     ): View? {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val sharedPreference: SharedPreferences = requireActivity().getSharedPreferences(
+       sharedPreferences = requireActivity().getSharedPreferences(
             resources.getString(R.string.packageName),
             MODE_PRIVATE
         )
-        root.tvUserName.text=sharedPreference.getString("userName","Name");
+        fusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(requireActivity())
+        root.tvUserName.text=sharedPreferences.getString("userName","Name");
 
         /**
         * SpinnerGetState used to choose the name of the city for which we have to get the
@@ -128,7 +144,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         iconString.icon
                     )
                 )
-                if (sharedPreference.getBoolean("type", true)) root.tvTemperature.text =
+                if (sharedPreferences.getBoolean("type", true)) root.tvTemperature.text =
                     (it.main.temp - 273.15).toInt().toString() + "°"
                 else root.tvTemperature.text =
                     ExternalFormulaCalculation.getFahrenite(it.main.temp) + "°"
@@ -152,10 +168,32 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 root.rvShowData.adapter = adapter
             }
         })
-        Log.d(TAG, sharedPreference.getString("latitude", "") + "")
-        val lat: Double = sharedPreference.getString("latitude", "28.7041")!!.toDouble()
-        val lang: Double = sharedPreference.getString("longitude", "77.1025")!!.toDouble()
-        homeViewModel.setWeather(lat, lang, SignatureKey.API_KEY)
+        /**
+         * Setting up the current location using google location Api
+         * It usse the FusedLocation Provider Client to obtain the location
+         * even if you are inside a building ( i.e. by network location client ) or by
+         * using GPS
+         * */
+        val locationSettingBuilder= LocationSettingsRequest.Builder()
+        val client: SettingsClient = LocationServices.getSettingsClient(requireActivity())
+        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(locationSettingBuilder.build())
+
+        task.addOnSuccessListener {
+
+            getCurrentLocation()
+        }
+        task.addOnFailureListener{
+            if (it is ResolvableApiException){
+                try {
+
+                    it.startResolutionForResult(requireActivity(),
+                        REQUEST_CHECK_SETTINGS)
+                } catch (sendEx: IntentSender.SendIntentException) {
+                }
+            }
+
+        }
+
         return root
     }
 
@@ -184,6 +222,36 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
+    }
+
+    /**
+     * it return the Callback to the current location of the user using fusedLocationProviderClient
+     * It has two function addOnSuccessListener which is fired when the location access is possible
+     * and other onFailureListener which is fired when something went wrong while getting the location
+     * */
+    fun getCurrentLocation(){
+        if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
+            fusedLocationProviderClient.lastLocation.addOnSuccessListener {
+                location=it;
+                sharedPreferences.edit().putString("latitude",it.latitude.toString()).apply()
+                sharedPreferences.edit().putString("longitude",it.longitude.toString()).apply()
+                val lat: Double = sharedPreferences.getString("latitude", "28.7041")!!.toDouble()
+                val lang: Double = sharedPreferences.getString("longitude", "77.1025")!!.toDouble()
+                homeViewModel.setWeather(lat, lang, SignatureKey.API_KEY)
+
+            }.addOnFailureListener{
+                Toast.makeText(requireActivity(),"Something went wrong Please try after some time", Toast.LENGTH_SHORT).show()
+            }
+
+        }else{
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),LOCATION_PERMISSION)
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode== AppCompatActivity.RESULT_OK && requestCode==REQUEST_CHECK_SETTINGS){
+            getCurrentLocation()
+        }
     }
 
 }
