@@ -18,6 +18,7 @@ object CurrentWeatherClient {
     * of the server to hit for the response and converting the JSON
     * obtained to POJO or kotlin objects
     * */
+
     private val retrofitInstance=Retrofit.Builder()
         .client(okHttpClient)
         .baseUrl("https://api.openweathermap.org/data/2.5/")
